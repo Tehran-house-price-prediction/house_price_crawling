@@ -3,14 +3,23 @@ from .. import items
 from datetime import datetime
 from dateutil.relativedelta import relativedelta 
 from .. import utils
+from scrapy_splash import SplashRequest
 
 
 class ShabeshSpiderSpider(scrapy.Spider):
     name = 'shabesh_spider'
     allowed_domains = ['shabesh.com']
     start_urls = ['https://shabesh.com/search/%D8%AE%D8%B1%DB%8C%D8%AF-%D9%81%D8%B1%D9%88%D8%B4/%D8%A2%D9%BE%D8%A7%D8%B1%D8%AA%D9%85%D8%A7%D9%86/%D8%AA%D9%87%D8%B1%D8%A7%D9%86']
-    page_nu = 2
-    next_page= f"https://shabesh.com/search/%D8%AE%D8%B1%DB%8C%D8%AF-%D9%81%D8%B1%D9%88%D8%B4/%D8%A2%D9%BE%D8%A7%D8%B1%D8%AA%D9%85%D8%A7%D9%86/%D8%AA%D9%87%D8%B1%D8%A7%D9%86?page={page_nu}"
+    # page_nu = 2
+    # next_page= f"https://shabesh.com/search/%D8%AE%D8%B1%DB%8C%D8%AF-%D9%81%D8%B1%D9%88%D8%B4/%D8%A2%D9%BE%D8%A7%D8%B1%D8%AA%D9%85%D8%A7%D9%86/%D8%AA%D9%87%D8%B1%D8%A7%D9%86?page={page_nu}"
+   
+   #Override start_requests
+
+    def start_requests(self):
+        for url in self.start_urls:
+            yield SplashRequest(url= url , callback= self.parse , args={"wait" : 3})
+   
+   
     def parse(self, response):
         links_suffix = response.css(".list_announceListMode__69v30.mt-2.col-12 a::attr(href)").getall() 
         
@@ -28,15 +37,14 @@ class ShabeshSpiderSpider(scrapy.Spider):
         print("t" , total_pages)
         upper_limit_page = page_container[2]
         print("ul" , upper_limit_page)
-        print(ShabeshSpiderSpider.next_page)
+        # print(ShabeshSpiderSpider.next_page)
         print("**************************************************************")
-        if int(upper_limit_page) < int(total_pages):
-            print("**************************ENNNTERRRRR************************************")
-            yield response.follow(ShabeshSpiderSpider.next_page , callback = self.parse)
-            print("YEILDDDDD")
-            ShabeshSpiderSpider.page_nu +=1
+
+        next_page = response.css("link[rel='next']::attr(href)").get()
+        if next_page:
+            print("next page: -------->>> ", next_page)
+            yield response.follow(next_page , callback = self.parse)
     def get_data(self, response):
-        # print("ENTEREEEEEEEEEEDDDDDDDD GET_DATA")
         now = datetime.now()
         house = response.meta["house"]
         features = response.css(".col-12.col-md-6 span.fw-bold::text").getall() 
