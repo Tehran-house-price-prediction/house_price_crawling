@@ -10,3 +10,6 @@ Crawl data for house price detection from web apps
 6.to have shell splash response:
 scrapy shell 'http://localhost:8050/render.html?url=http://example.com/page-with-javascript.html&timeout=10&wait=0.5'
 7. Added DOWNLOAD_DELAY = 3 in setting.py
+
+8.response from scrapy.Request or request from requests lib is not the same as original html??!!
+9.for kilid, had to set obey_robottxt = False

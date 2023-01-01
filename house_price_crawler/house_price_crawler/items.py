@@ -49,3 +49,34 @@ class ShabeshCrawlingItem(scrapy.Item):
     building_facade = scrapy.Field()
     warm_water = scrapy.Field()
     floor_cover = scrapy.Field()
+
+
+class IranfileCrawlingItem(scrapy.Item):
+    price = scrapy.Field()
+    total_price = scrapy.Field()
+    link = scrapy.Field()
+    area = scrapy.Field()
+    facilities = scrapy.Field()
+    build_year = scrapy.Field() 
+    neighbour_hood = scrapy.Field()
+    rooms = scrapy.Field()
+    floor = scrapy.Field()
+    description = scrapy.Field()
+    adv_date = scrapy.Field()
+    city = scrapy.Field()
+    building_pos = scrapy.Field()
+    title_type  = scrapy.Field()
+    total_floors = scrapy.Field()
+    houses_per_floor = scrapy.Field()
+    ac_sys = scrapy.Field()
+    heat_sys = scrapy.Field()
+    bathroom_type = scrapy.Field()
+    building_facade = scrapy.Field()
+    warm_water = scrapy.Field()
+    floor_cover = scrapy.Field()
+
+
+
+class KilidCrawlingItem(scrapy.Item):
+    Description = scrapy.Field()
+    link = scrapy.Field()

@@ -19,7 +19,7 @@ FEED_EXPORT_ENCODING = 'utf-8'
 #USER_AGENT = 'house_price_crawler (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -93,7 +93,7 @@ DOWNLOADER_MIDDLEWARES = {
     "scrapy_splash.SplashCookiesMiddleware" : 723,
     "scrapy_splash.SplashMiddleware" : 725,
     "scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware" : 810,
-    'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
+    # 'scrapy.downloadermiddlewares.retry.RetryMiddleware': None,
     'house_price_crawler.middlewares.TooManyRequestsRetryMiddleware': 543,
 }
 
@@ -111,4 +111,4 @@ HTTPCACHE_STORAGE = "scrapy_splash.SplashAwareFSCacheStorage"
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
 TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
-RETRY_HTTP_CODES = [429]
+RETRY_HTTP_CODES = [429, 502,504]
